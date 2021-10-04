@@ -8,7 +8,32 @@
     <title>Weather Dashboard</title>
 </head>
 <body>
+    <header class="header">
+        Weather Dashboard
+    </header>
+    <div id="search-wrapper">
+        <div id="location">
+                <input type="text" name="city" id="city" value="" placeholder="City">
+                <input type="submit" id="submit" for="city">
+        </div>
+        <div id="previousSearches">
+            <ul id="city-list">
+
+            </ul>
+        </div>
+    </div>
+    <div id="current-conditions">
+
+    </div>
+    <div id="5-day-forecast">
+        <div id="tomorrow"></div>
+        <div id="day-2"></div>
+        <div id="day-3"></div>
+        <div id="day-4"></div>
+        <div id="day-5"></div>
+    </div>
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="./assets/js/script.js"></script>
 </body>
 </html>
