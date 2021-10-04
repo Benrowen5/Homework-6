@@ -4,33 +4,36 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/style.css" />
     <title>Weather Dashboard</title>
 </head>
 <body>
-    <header class="header">
+    <header class="header text-center">
         Weather Dashboard
     </header>
-    <div id="search-wrapper">
-        <div id="location">
-                <input type="text" name="city" id="city" value="" placeholder="City">
-                <input type="submit" id="submit" for="city">
-        </div>
-        <div id="previousSearches">
-            <ul id="city-list">
+    <div id="container">
+        <div class="row">
+            <div id="location" class="col-sm-4">
+                <div>
+                    <input type="text" name="city" id="city" value="" placeholder="City">
+                    <input type="submit" id="submit" for="city">
 
-            </ul>
-        </div>
-    </div>
-    <div id="current-conditions">
+                    <ul id="previousSearches"></ul>
+                </div>            
+            </div>
+        
+            <div id="current-conditions" class="col-sm-8">
 
-    </div>
-    <div id="5-day-forecast">
-        <div id="tomorrow"></div>
-        <div id="day-2"></div>
-        <div id="day-3"></div>
-        <div id="day-4"></div>
-        <div id="day-5"></div>
+            </div>
+                <div id="5-day-forecast">
+                <div id="tomorrow"></div>
+                <div id="day-2"></div>
+                <div id="day-3"></div>
+                <div id="day-4"></div>
+                <div id="day-5"></div>
+            </div>
+        </div>
     </div>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>

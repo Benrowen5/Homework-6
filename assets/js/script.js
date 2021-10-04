@@ -2,9 +2,8 @@ var apiKey = "43df6994375e5f73cac2fff37be7d8b5";
 var submitBtn = document.getElementById("submit");
 
 var previousSearchesEl = document.getElementById("previousSearches");
-var cityListEl = document.getElementById("city-list");
 var savedCities = JSON.parse(localStorage.getItem("cities")) || [];
-
+var cityName  = "";
 var currentConditionsEl = document.getElementById("current-conditions");
 
 var displayDate = function() {
@@ -15,35 +14,45 @@ var displayDate = function() {
 
 var displayConditions = function(data) {
     var currentTemp = document.createElement("p");
-    currentTemp.textContent = "temperature: " + data.main.temp +"F";
+    currentTemp.textContent = "temperature: " + data.current.temp +"F";
     currentConditionsEl.appendChild(currentTemp);
     var currentHumidity = document.createElement("p");
-    currentHumidity.textContent = "Humidity: " + data.main.humidity + "%";
+    currentHumidity.textContent = "Humidity: " + data.current.humidity + "%";
     currentConditionsEl.appendChild(currentHumidity);
     var currentWindSpeed = document.createElement("p");
-    currentWindSpeed.textContent = "Wind Speed: " + data.wind.speed + " MPH";
+    currentWindSpeed.textContent = "Wind Speed: " + data.current.wind_speed + " MPH";
     currentConditionsEl.appendChild(currentWindSpeed);
     var currentUV = document.createElement("p");
-    currentUV.textContent = "UV Index: " + data.avi;
+    currentUV.textContent = "UV Index: " + data.current.uvi;
     currentConditionsEl.appendChild(currentUV);
 }
 
 var displayCityInfo = function(data) {
     var cityHeader = document.createElement("h3");
-    cityHeader.textContent = data.name;
+    cityHeader.textContent = cityName;
     currentConditionsEl.appendChild(cityHeader);
     displayDate();
     displayConditions(data);
 };
 
 var getWeather = function(cityName) {
-    var apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&appid=" + apiKey;
-    fetch(apiUrl).then(function(response) {
+    // api call to get lat and long of city.
+    var apiUrl1 = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + apiKey;
+    fetch(apiUrl1).then(function(response) {
         if(response.ok) {
             response.json().then(function(data) {
                 console.log(data);
-                console.log(data.name);
-                displayCityInfo(data);
+                cityName = data.name;
+                // api call to get weather data based on lat and long coordinates.
+                var apiUrl2 = "https://api.openweathermap.org/data/2.5/onecall?lat=" + data.coord.lat + "&lon=" + data.coord.lon + "&units=imperial&exclude=hourly,daily,minutely&appid=" + apiKey;
+                fetch(apiUrl2).then(function(response) {
+                    if(response.ok){
+                        response.json().then(function(data){
+                            console.log(data);
+                            displayCityInfo(data);
+                        })
+                    }
+                })
                 })
             }
             if (response.status === 400) {
@@ -68,7 +77,7 @@ var createCityEl = function(city) {
     cityEl.setAttribute("id", "city");
     cityEl.textContent = (city);
     cityEl.innerHTML = "<h3>" + city +"</h3>";
-    cityListEl.appendChild(cityEl);
+    previousSearchesEl.appendChild(cityEl);
 };
 
 var saveCity = function(cityName){
