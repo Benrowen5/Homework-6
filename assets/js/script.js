@@ -1,12 +1,16 @@
 // set global variables and DOM elements
 var apiKey = "43df6994375e5f73cac2fff37be7d8b5";
 var submitBtn = document.getElementById("submit");
+var clearBtn = document.getElementById("clear");
 
 var previousSearchesEl = document.getElementById("previousSearches");
 var savedCities = JSON.parse(localStorage.getItem("cities")) || [];
+var cityListItems = document.querySelectorAll("a");
 var currentConditionsEl = document.getElementById("current");
 var forecastEl = document.getElementById("forecast");
 var currentEl = document.getElementById("current");
+var fiveDayCheck = document.getElementById("5-day");
+var cityName="";
 
 // function to display the date in the current weather conditions using moment.js
 var displayDate = function() {
@@ -113,30 +117,71 @@ var getWeather = function(cityName) {
 };
 
 // event listener function, takes city name entered in search bar and passes to relevant functions.
+<<<<<<< HEAD
 var getCity = function (event) {
     var cityName = document.querySelector("#city").value;
+=======
+var getCity = function () {
+    // fix
+    // clear previous 5day forecast if there is one displayed
+    if(fiveDayCheck.hasChildNodes()){
+        for (i=0; i<5; i++) {
+            let day = document.getElementById("day-" + [i+1]);
+            day.innerHTML = "";
+        }
+        for (i=0; i<5; i++) {
+            let day = document.getElementById("day-" + [i+1]);
+            day.innerHTML = "";
+        }
+    }
+    cityName = document.querySelector("#city").value;
+>>>>>>> develop
     // call save City to save city into local storage array
-    saveCity(cityName);
     createCityEl(cityName);
+    saveCity(cityName);
     getWeather(cityName);
 }
 
 // creates and displays the previous city searches to the page
 var createCityEl = function(city) {
-    var cityEl = document.createElement("a");
-    cityEl.setAttribute("class", "list-group-item", "href", "#");
-    cityEl.textContent = (city);
-    cityEl.innerHTML = "<h3>" + city +"</h3>";
-    previousSearchesEl.appendChild(cityEl);
+    if(checkCityName(cityName)){
+        var cityEl = document.createElement("a");
+        cityEl.setAttribute("class", "list-group-item", "href", "#");
+        cityEl.textContent = (city);
+        // cityEl.innerHTML = "<h3>" + city +"</h3>";
+        previousSearchesEl.appendChild(cityEl);
+    }
+};
+
+var createCityFromList = function(city){
+    createCityEl(city);
+    getWeather(city);
+}
+
+// var addCityListLink = function(){
+//     for(i=0; i<cityListItems.length; i++){
+//         cityListItems[i].addEventListener("click", creatCityFromList(cityListItems[i]))
+//     }
+// }
+
+var checkCityName = function(cityName){
+    if(savedCities.includes(cityName) === false){
+        return true;
+    } else {
+        return false;
+    }
 };
 
 // saves searched city names into localStorage
 var saveCity = function(cityName){
+    debugger;
     // set searched city into savedCities array
-    savedCities.push(cityName);
-    console.log(savedCities);
-    // check if search city has already been saved, if not, save it.
-    localStorage.setItem('cities', JSON.stringify(savedCities));
+    if(checkCityName(cityName)){
+        savedCities.push(cityName);
+        console.log(savedCities);
+        // check if search city has already been saved, if not, save it.
+        localStorage.setItem('cities', JSON.stringify(savedCities));
+    }
 };
 
 // loads any cities saved in localStorage
@@ -153,7 +198,23 @@ var loadCities = function() {
         createCityEl(savedCities[i]);                
     }    
 };
+<<<<<<< HEAD
 // calls load cities function on page load.
 loadCities();
 // event listener for search button
 submitBtn.addEventListener("click", getCity);
+=======
+
+var clearCities = function(event){
+    Storage.clear;
+    savedCities = [];
+    previousSearchesEl.innerHTML = "";
+}
+
+// calls load cities function on page load.
+loadCities();
+// addCityListLink();
+// event listener for search button
+submitBtn.addEventListener("click", getCity);
+clearBtn.addEventListener("click", clearCities);
+>>>>>>> develop
