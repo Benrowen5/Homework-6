@@ -117,8 +117,20 @@ var getWeather = function(cityName) {
 };
 
 // event listener function, takes city name entered in search bar and passes to relevant functions.
-var getCity = function (event) {
-    var cityName = document.querySelector("#city").value;
+var getCity = function () {
+    // fix
+    // clear previous 5day forecast if there is one displayed
+    if(fiveDayCheck.hasChildNodes()){
+        for (i=0; i<5; i++) {
+            let day = document.getElementById("day-" + [i+1]);
+            day.innerHTML = "";
+        }
+        for (i=0; i<5; i++) {
+            let day = document.getElementById("day-" + [i+1]);
+            day.innerHTML = "";
+        }
+    }
+    cityName = document.querySelector("#city").value;
     // call save City to save city into local storage array
     createCityEl(cityName);
     saveCity(cityName);
@@ -181,7 +193,16 @@ var loadCities = function() {
         createCityEl(savedCities[i]);                
     }    
 };
+
+var clearCities = function(event){
+    localStorage.clear();
+    savedCities = [];
+    previousSearchesEl.innerHTML = "";
+}
+
 // calls load cities function on page load.
 loadCities();
+// addCityListLink();
 // event listener for search button
 submitBtn.addEventListener("click", getCity);
+clearBtn.addEventListener("click", clearCities);
