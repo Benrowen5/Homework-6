@@ -24,7 +24,9 @@ var displayConditions = function(data) {
     // weather icon from API call response data
     let iconCode = data.current.weather[0].icon;
     let iconUrl = "http://openweathermap.org/img/wn/" + iconCode + "@2x.png"; 
-    currentConditionsEl.innerHTML = "<img src=" + iconUrl + ">";
+    let iconImage = document.createElement("img");
+    iconImage.setAttribute("src", iconUrl);
+    currentConditionsEl.appendChild(iconImage);
     // current temperature details from API call response data
     var currentTemp = document.createElement("p");
     currentTemp.innerHTML = "temperature: " + data.current.temp +" &#176F";
@@ -60,7 +62,7 @@ var get5Day = function(data){
     fiveDay.innerHTML = "<h3>5-Day Forecast</h3>";
 // loop that gets the data for each day and displays it
     for (i=0; i<5; i++) {
-        var forecastDate = moment().add(i+1, 'days').format("MMM Do YY");;
+        var forecastDate = moment().add(i+1, 'days').format("dddd MMM Do");;
         var forecastTemp = data.daily[i+1].temp.day;
         var forecastWind = data.daily[i+1].wind_speed;
         var forecastHumidity = data.daily[i+1].humidity;
@@ -75,10 +77,7 @@ var get5Day = function(data){
 
 // displays the city name based on the first API call.
 var displayCityName = function(data) {
-    var cityName = document.createElement("h3");
-    cityName.textContent = data.name;
-    currentEl.innerHTML = "Current Conditions for: </br>" + cityName;
-    currentEl.prepend(cityName);
+    currentEl.innerHTML = "<h3>Current conditions for: </br>" + data.name + "</h3>";
 };
 
 // calls functions to display the current weather details.
@@ -104,7 +103,6 @@ var getWeather = function(cityName) {
                             console.log(data);
                             displayCityInfo(data);
                             get5Day(data);
-                            displayCityName();
                         })
                     }
                 })
@@ -169,7 +167,6 @@ var checkCityName = function(cityName){
 
 // saves searched city names into localStorage
 var saveCity = function(cityName){
-    debugger;
     // set searched city into savedCities array
     if(checkCityName(cityName)){
         savedCities.push(cityName);
