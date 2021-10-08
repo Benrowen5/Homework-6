@@ -1,0 +1,26 @@
+#previousSearches {
+    margin: 5px;
+    padding: 5px;
+}
+
+#city {
+    margin: 5px;
+    padding: 15px;
+}
+
+.search-and-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+#submit {
+    margin: 2px;
+}
+
+#clear {
+margin: 2px;
+}
+
+.list-group-item.hover {
+    cursor: pointer;
+}
