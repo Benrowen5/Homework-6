@@ -5,7 +5,7 @@ var clearBtn = document.getElementById("clear");
 
 var previousSearchesEl = document.getElementById("previousSearches");
 var savedCities = JSON.parse(localStorage.getItem("cities")) || [];
-var cityListItems = document.querySelectorAll("a");
+var cityListItems = document.querySelectorAll(".list-group-item");
 var currentConditionsEl = document.getElementById("current");
 var forecastEl = document.getElementById("forecast");
 var currentEl = document.getElementById("current");
@@ -58,8 +58,10 @@ var displayConditions = function(data) {
 
 // displays the current 5-day forcast data using the data from API call
 var get5Day = function(data){
-    var fiveDay = document.getElementById("5-day");
+    var fiveDay = document.createElement("div")
+    fiveDay.setAttribute("class", "col-12");
     fiveDay.innerHTML = "<h3>5-Day Forecast</h3>";
+    forecastEl.appendChild(fiveDay);
 // loop that gets the data for each day and displays it
     for (i=0; i<5; i++) {
         var forecastDate = moment().add(i+1, 'days').format("dddd MMM Do");;
@@ -116,17 +118,9 @@ var getWeather = function(cityName) {
 
 // event listener function, takes city name entered in search bar and passes to relevant functions.
 var getCity = function () {
-    // fix
     // clear previous 5day forecast if there is one displayed
-    if(fiveDayCheck.hasChildNodes()){
-        for (i=0; i<5; i++) {
-            let day = document.getElementById("day-" + [i+1]);
-            day.innerHTML = "";
-        }
-        for (i=0; i<5; i++) {
-            let day = document.getElementById("day-" + [i+1]);
-            day.innerHTML = "";
-        }
+    if (forecastEl.hasChildNodes) {
+        forecastEl.innerHTML = "";
     }
     cityName = document.querySelector("#city").value;
     // call save City to save city into local storage array
@@ -139,22 +133,23 @@ var getCity = function () {
 var createCityEl = function(city) {
     if(checkCityName(cityName)){
         var cityEl = document.createElement("a");
-        cityEl.setAttribute("class", "list-group-item", "href", "#");
+        cityEl.setAttribute("class", "list-group-item btn");
         cityEl.textContent = (city);
-        // cityEl.innerHTML = "<h3>" + city +"</h3>";
         previousSearchesEl.appendChild(cityEl);
     }
 };
 
-var createCityFromList = function(city){
-    createCityEl(city);
-    getWeather(city);
-}
+// var createCityFromList = function(target){
+//     // createCityEl(city);
+//     // getWeather(city);
+//     console.log(target);
+// }
 
 // var addCityListLink = function(){
-//     for(i=0; i<cityListItems.length; i++){
-//         cityListItems[i].addEventListener("click", creatCityFromList(cityListItems[i]))
+//     for(i=0; i<savedCities.length; i++){
+//         savedCities[i].addEventListener("click", createCityFromList(savedCities[i]))
 //     }
+//     // cityListItems.addEventListener("click", createCityFromList);
 // }
 
 var checkCityName = function(cityName){
@@ -187,12 +182,15 @@ var loadCities = function() {
     // loop through saved cities array
     for (i=0; i<savedCities.length; i++) {
         // pass each city into the createCityEl function
-        createCityEl(savedCities[i]);                
-    }    
+        createCityEl(savedCities[i]);
+    }
+    for (i=0; i<cityListItems.length; i++) {
+        cityListitems.addEventListener("click", getWeather(cityListItems[i]))
+    }               
 };
 
 var clearCities = function(event){
-    Storage.clear;
+    localStorage.clear();
     savedCities = [];
     previousSearchesEl.innerHTML = "";
 }
@@ -203,3 +201,4 @@ loadCities();
 // event listener for search button
 submitBtn.addEventListener("click", getCity);
 clearBtn.addEventListener("click", clearCities);
+// cityListItems.addEventListener("click", createCityFromList);
