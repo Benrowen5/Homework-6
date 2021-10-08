@@ -109,12 +109,12 @@ var getWeather = function(cityName) {
                         })
                     }
                 })
-                })
-            }
-            if (response.status === 400) {
-                alert("bad request");
-            }
-        });
+            })
+        }
+        if (response.status === 400) {
+            alert("bad request");
+        }
+    });
 };
 
 // event listener function, takes city name entered in search bar and passes to relevant functions.
@@ -133,7 +133,7 @@ var getCity = function () {
 // creates and displays the previous city searches to the page
 var createCityEl = function(city) {
     if(checkCityName(cityName)){
-        var cityEl = document.createElement("a");
+        var cityEl = document.createElement("li");
         cityEl.setAttribute("class", "list-group-item btn");
         cityEl.textContent = (city);
         previousSearchesEl.appendChild(cityEl);
@@ -184,16 +184,15 @@ var loadCities = function() {
     for (i=0; i<savedCities.length; i++) {
         // pass each city into the createCityEl function
         createCityEl(savedCities[i]);
-    }
-    for (i=0; i<cityListItems.length; i++) {
-        cityListitems.addEventListener("click", getWeather(cityListItems[i]))
-    }               
+    }            
 };
 
 var clearCities = function(event){
     localStorage.clear();
     savedCities = [];
     previousSearchesEl.innerHTML = "";
+    cityName = document.querySelector("#city");
+    cityName.value = "";
 }
 
 // calls load cities function on page load.
@@ -203,4 +202,3 @@ loadCities();
 submitBtn.addEventListener("click", getCity);
 // event listener for clear button
 clearBtn.addEventListener("click", clearCities);
-// cityListItems.addEventListener("click", createCityFromList);
