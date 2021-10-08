@@ -58,13 +58,14 @@ var displayConditions = function(data) {
 
 // displays the current 5-day forcast data using the data from API call
 var get5Day = function(data){
+    // set up div for 5day heading
     var fiveDay = document.createElement("div")
     fiveDay.setAttribute("class", "col-12");
     fiveDay.innerHTML = "<h3>5-Day Forecast</h3>";
     forecastEl.appendChild(fiveDay);
-// loop that gets the data for each day and displays it
+// loop that gets the data for each day in 5 day forecast and displays it in new div.
     for (i=0; i<5; i++) {
-        var forecastDate = moment().add(i+1, 'days').format("dddd MMM Do");;
+        var forecastDate = moment().add(i+1, 'days').format("dddd MMM Do");
         var forecastTemp = data.daily[i+1].temp.day;
         var forecastWind = data.daily[i+1].wind_speed;
         var forecastHumidity = data.daily[i+1].humidity;
@@ -200,5 +201,6 @@ loadCities();
 // addCityListLink();
 // event listener for search button
 submitBtn.addEventListener("click", getCity);
+// event listener for clear button
 clearBtn.addEventListener("click", clearCities);
 // cityListItems.addEventListener("click", createCityFromList);
