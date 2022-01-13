@@ -1,5 +1,5 @@
-## Homework-6
-Homework challenge #6 due on 10/4/2021
+## Weather Dashboard Application
+Weather dashboard accessing third party API data
 
 ## Description:</br>
 This challenge was to create a weather dashboard application which allows users to search for and view convenient current and future weather data using the OpenWeatherMap API. The app allows users to search for a city and presents data in a responsive and easy to view format, and also saves recent searches for easy access. A baseline acceptance criteria was provided and all items have been completed. The code has been written to maintain readability, organization, and context. A unique repository was created to store the project and deploy the application.</br></br>
